@@ -37,7 +37,7 @@ def mcts(actions: list[int], state: Board, my_symbol: str, opponent_symbol: str)
 def choose_random(actions: list[int], state: Board, my_symbol: str, opponent_symbol: str):
     return random.choice(actions)
 
-winner = {"X": 0, "O": 0}
+winner = {"X": 0, "O": 0, "": 0}
 for i in range(25):
     game = Game(choose_random, mcts)
     game.run()
