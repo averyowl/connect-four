@@ -287,7 +287,7 @@ Search Depths Used: {set(self.metrics['search_depths'])}
     # This function allows us to use the MinMax agent in the Game class without modifying its interface
     # It takes the depth as an argument to control how deep the MinMax algorithm will search
     # This is useful for tuning the performance of the MinMax agent. I was pretty pleased with this
-    def get_choice_function(self, depth=4):
+    def get_choice_function(self, depth=5):
         def choice_function(actions, state, my_symbol, opponent_symbol):
             # Update player symbols for this game
             self.player = my_symbol
@@ -301,7 +301,7 @@ if __name__ == "__main__":
     ai = MinMax('X', 'O')
     
     #create a choice function for the AI
-    ai_choice = ai.get_choice_function(depth=4)  #Reduced depth for faster demonstration, we can deepen this without too much trouble
+    ai_choice = ai.get_choice_function(depth=7)  #Reduced depth for faster demonstration, we can deepen this without too much trouble
     
     #random choice function for opponent
     import random
@@ -313,7 +313,7 @@ if __name__ == "__main__":
     print("=" * 50)
     
     #create and run a game with the AI vs Random moves
-    game = Game(ai_choice, random_choice)
+    game = Game(ai_choice, ai_choice)
     game.run()
     
     print(f"\nGame Over! Winner: {game.winner if game.winner else 'Draw'}")
