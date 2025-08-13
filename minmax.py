@@ -4,6 +4,7 @@
 # 2025-08-06
 from board import Board
 from game import Game
+import mcts
 
 
 # Class: MinMax
@@ -281,7 +282,7 @@ Search Depths Used: {set(self.metrics['search_depths'])}
         }
 
     #Function: get_choice_function
-    #Input: depth=4
+    #Input: depth=5
     #Output: Callable
     #Description: Returns a callable function that can be used as a choice function for the Game
     # This function allows us to use the MinMax agent in the Game class without modifying its interface
@@ -298,22 +299,23 @@ Search Depths Used: {set(self.metrics['search_depths'])}
 
 if __name__ == "__main__":
     #create a MinMax AI
+    
     ai = MinMax('X', 'O')
     
     #create a choice function for the AI
-    ai_choice = ai.get_choice_function(depth=7)  #Reduced depth for faster demonstration, we can deepen this without too much trouble
-    
+    ai_choice = ai.get_choice_function(depth=5)  #Reduced depth for faster demonstration, we can deepen this without too much trouble
+    mcts_choice = mcts.mcts  # MCTS choice function for the opponent
     #random choice function for opponent
     import random
     def random_choice(actions, state, my_symbol, opponent_symbol):
         return random.choice(actions)
     
     print("Starting Connect Four: AI vs Random Player")
-    print("AI is playing as 'X', Random player as 'O'")
+    print("AI is playing as 'X', MCTS player as 'O'")
     print("=" * 50)
     
     #create and run a game with the AI vs Random moves
-    game = Game(ai_choice, ai_choice)
+    game = Game(ai_choice, mcts_choice)
     game.run()
     
     print(f"\nGame Over! Winner: {game.winner if game.winner else 'Draw'}")
