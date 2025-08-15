@@ -303,19 +303,19 @@ if __name__ == "__main__":
     ai = MinMax('X', 'O')
     
     #create a choice function for the AI
-    ai_choice = ai.get_choice_function(depth=5)  #Reduced depth for faster demonstration, we can deepen this without too much trouble
-    mcts_choice = mcts.mcts  # MCTS choice function for the opponent
+    ai_choice = ai.get_choice_function(depth=5)  #Reduced depth for faster demonstration, we can deepen this to get better performance at the expense of compute time
+    mcts_choice = mcts.mcts  # MCTS choice function for the opponent, to test against minmax
     #random choice function for opponent
     import random
     def random_choice(actions, state, my_symbol, opponent_symbol):
         return random.choice(actions)
     
-    print("Starting Connect Four: AI vs Random Player")
-    print("AI is playing as 'X', MCTS player as 'O'")
+    print("Starting Connect Four: MinMax AI vs MinMax AI")
+    print(" MinMax AI is playing as 'X', MinMax AI as 'O'")
     print("=" * 50)
     
-    #create and run a game with the AI vs Random moves
-    game = Game(ai_choice, mcts_choice)
+    #create and run a game. the first argument is X, the second argument is O
+    game = Game(ai_choice, ai_choice)
     game.run()
     
     print(f"\nGame Over! Winner: {game.winner if game.winner else 'Draw'}")
@@ -325,7 +325,6 @@ if __name__ == "__main__":
     print("\n" + "=" * 50)
     ai.print_metrics()
     
-    #Optional: Show some additional analysis
     if ai.metrics['moves_made'] > 0:
         efficiency = ai.metrics['terminal_nodes_reached'] / ai.metrics['total_minimax_calls'] * 100
         print(f"\nSearch Efficiency: {efficiency:.1f}% of calls reached terminal nodes")
