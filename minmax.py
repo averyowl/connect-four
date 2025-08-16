@@ -62,10 +62,10 @@ class MinMax:
         self.metrics['evaluation_calls'] += 1
         
         winner = board.check_won()
-        if winner == self.player:
+        if winner == 'X':
             self.metrics['wins_found'] += 1
             return 1000  #hih positive score for winning
-        elif winner == self.opponent:
+        elif winner == 'O':
             self.metrics['losses_found'] += 1
             return -1000  #high negative score for losing
         elif len(board.get_actions()) == 0:
@@ -119,19 +119,19 @@ class MinMax:
     # This is another helper function for the above _evaluate_position
     def _score_window(self, window):
         score = 0
-        player_count = window.count(self.player)
-        opponent_count = window.count(self.opponent)
+        x_count = window.count('X')
+        o_count = window.count('O')
         empty_count = window.count("")
         
         #these scores can be adjusted for different heuristics if we want
-        if player_count == 4:
+        if x_count == 4:
             score += 100
-        elif player_count == 3 and empty_count == 1:
+        elif x_count == 3 and empty_count == 1:
             score += 10
-        elif player_count == 2 and empty_count == 2:
+        elif x_count == 2 and empty_count == 2:
             score += 2
         
-        if opponent_count == 3 and empty_count == 1:
+        if o_count == 3 and empty_count == 1:
             score -= 80  #Block opponent
         
         return score
@@ -139,7 +139,7 @@ class MinMax:
     #Function: minmax
     #Input: board, depth, maximizing_player, current_player
     #Output: int
-    #Description: Implements the MinMax algorithm recursively to find the best move for the current player
+    #Description: Implements the MinMax algorithm recursively to find the best move for the 'X' player 
     def minmax(self, board, depth, maximizing_player, current_player):
         self.metrics['total_minimax_calls'] += 1
         self.current_move_calls += 1
@@ -153,7 +153,7 @@ class MinMax:
             for move in self.get_valid_moves(board):
                 new_board = self.make_move(board, move, current_player)
                 next_player = self.opponent if current_player == self.player else self.player
-                eval = self.minmax(new_board, depth - 1, False, next_player)
+                eval = self.minmax(new_board, depth - 1, True, next_player)
                 max_eval = max(max_eval, eval)
             return max_eval
         else:
@@ -161,7 +161,7 @@ class MinMax:
             for move in self.get_valid_moves(board):
                 new_board = self.make_move(board, move, current_player)
                 next_player = self.opponent if current_player == self.player else self.player
-                eval = self.minmax(new_board, depth - 1, True, next_player)
+                eval = self.minmax(new_board, depth - 1, False, next_player)
                 min_eval = min(min_eval, eval)
             return min_eval
 
@@ -180,7 +180,7 @@ class MinMax:
 
         for move in self.get_valid_moves(board):
             new_board = self.make_move(board, move, self.player)
-            eval = self.minmax(new_board, depth - 1, False, self.opponent)
+            eval = self.minmax(new_board, depth - 1, True, self.opponent)
             if eval > best_value:
                 best_value = eval
                 best_move = move
