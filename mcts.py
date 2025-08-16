@@ -32,6 +32,8 @@ def mcts_factory(iterations: int) -> Callable[[list[int], Board, str, str], int]
                 if(won == opponent_symbol):
                     best[first_action] -= 1
                     break
+                if(won == "D"):
+                    break
                 states.append(new_state)
                 my_turn = not my_turn
         return int(max(best, key=best.get))
@@ -44,13 +46,12 @@ def choose_random(actions: list[int], state: Board, my_symbol: str, opponent_sym
 
 if __name__ == "__main__":
 
-    winner = {"X": 0, "O": 0, "": 0}
-    for i in range(25):
-        game = Game(choose_random, mcts)
-        game.run()
-        print(game.winner)
-        game.state.display_board()
-        winner[game.winner] += 1
+    for j in range(1,100):
+        winner = {"X": 0, "O": 0, "D": 0}
+        for i in range(100):
+            game = Game(choose_random, mcts_factory(j))
+            game.run()
+            winner[game.winner] += 1
+        print(winner["O"]/100)
 
-    print(winner)
 
