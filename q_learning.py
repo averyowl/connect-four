@@ -486,3 +486,4 @@ if __name__ == "__main__":
     # Example head-to-head after training (greedy play):
     # game = Game(agent.choose, random_agent)
     # print("Winner:", game.run())
+    # Runtime: 30 minutes (could be more by +10-15 depending on CPU)
