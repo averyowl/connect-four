@@ -310,7 +310,7 @@ if __name__ == "__main__":
     def random_choice(actions, state, my_symbol, opponent_symbol):
         return random.choice(actions)
     
-    print("Starting Connect Four: MinMax AI vs MinMax AI")
+    print("Starting Connect Four: ")
     print(" MinMax AI is playing as 'X', MinMax AI as 'O'")
     print("=" * 50)
     
