@@ -148,7 +148,7 @@ class MinMax:
             self.metrics['terminal_nodes_reached'] += 1
             return self.evaluate(board)
 
-        if maximizing_player:
+        if current_player == 'X':
             max_eval = float('-inf')
             for move in self.get_valid_moves(board):
                 new_board = self.make_move(board, move, current_player)
